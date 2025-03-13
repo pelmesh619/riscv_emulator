@@ -6,7 +6,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Repo checkout
       - uses: actions/checkout@v2
+
       - name: Set up NodeJS
         uses: actions/setup-node@v4
         with:
@@ -17,3 +19,8 @@ jobs:
 
       - name: Compile TypeScript code
         run: tsc
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
