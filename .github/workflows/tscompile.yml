@@ -29,6 +29,9 @@ jobs:
       - name: Compile TypeScript code
         run: tsc
 
+      - name: List compiled files
+        run: ls -la ./built
+
   deploy:
     name: Deployment Job
     
