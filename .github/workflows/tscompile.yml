@@ -32,6 +32,11 @@ jobs:
       - name: List compiled files
         run: ls -la ./built
 
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
   deploy:
     name: Deployment Job
     
@@ -47,10 +52,6 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './built'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
