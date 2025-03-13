@@ -7,7 +7,7 @@ jobs:
 
     steps:
       - name: Repo checkout
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       - name: Set up NodeJS
         uses: actions/setup-node@v4
