@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
-    <script src="built/main.js"></script>
+    <script type="module" src="./built/main.js"></script>
+    <link rel="stylesheet" href="static/styles.css">
 </head>
 
 <body>
-    <p>Hello world!</p>
+    <div id="header">
+        <p>RISC-V Emulator</p>
+    </div>
+
+    <div id="mainContent">
+        <div id="textarea" contenteditable></div>
+        <div id="displayArea"></div>
+    </div>
+
+    <div id="footer"></div>
 </body>
 
 </html>
