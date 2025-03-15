@@ -253,7 +253,21 @@ class TextAreaManager {
   
 
 window.onload = () => {
-    const elem = document.querySelector('p');
+    test();
 
-    elem.innerText += ' 138190';
+    const textarea = new TextAreaManager('textarea');
+
+    const elem = document.getElementById('textarea');
+
+    elem?.addEventListener('input', (e) => {
+        
+        textarea.update();
+    
+        const display = document.getElementById('displayArea');
+        if (display) {
+            display.innerText = textarea.DOMObject.innerHTML + '\n' + textarea.nodePath + ' ' + textarea.offset;
+        }
+        
+    })
 }
+
