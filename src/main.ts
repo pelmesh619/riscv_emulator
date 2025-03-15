@@ -1,5 +1,8 @@
-function test() {
-    console.log('fjdhiowhicw');
+import { notmain } from "./notmain.js"
+
+function test(): void {
+    console.log('fjdhiowhicjjjw');
+}
 
 function boldFactory(text: string) {
     let n = document.createElement('b');
