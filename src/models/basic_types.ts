@@ -9,8 +9,11 @@ export class Word {
 
     public static get lengthInBits(): number { return 32; }
     public static get maxUnsigned(): bigint { return (1n << BigInt(Word.lengthInBits)) - 1n; }
+    public static get minSigned(): bigint { return -(1n << BigInt(Word.lengthInBits - 1)); }
+    public static get maxSigned(): bigint { return (1n << BigInt(Word.lengthInBits - 1)) - 1n; }
 
     public static Zero = new Word(0);
+    public static One = new Word(1);
 
     private value: bigint = 0n;
 
