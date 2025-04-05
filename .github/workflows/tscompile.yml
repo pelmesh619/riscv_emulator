@@ -11,7 +11,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+
   build:
+    name: Build Job
     runs-on: ubuntu-latest
 
     steps:
@@ -37,6 +39,19 @@ jobs:
         with:
           path: '.'
 
+  test:
+    name: Tests run
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Install Jest
+        run: npm install --save-dev jest ts-jest @types/jest
+
+      - name: Test TypeScript code
+        run: npm test
+
+
   deploy:
     name: Deployment Job
     
@@ -44,7 +59,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: test
 
     steps:
       - name: Repo checkout
