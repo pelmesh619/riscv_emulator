@@ -35,7 +35,10 @@ export class Word {
     }
 
     public asSignedBinary(): string {
-        return this.value.toString(2).padStart(Word.lengthInBits, '0');
+        if (this.value >= 0) {
+            return this.value.toString(2).padStart(Word.lengthInBits, '0');
+        }
+        return (Word.maxUnsigned + this.value + 1n).toString(2).padStart(Word.lengthInBits, '1');
     }
 
     public getValue(): number {
