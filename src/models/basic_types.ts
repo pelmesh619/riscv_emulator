@@ -19,6 +19,15 @@ export class Word {
 
     constructor(number: number) {
         this.value = BigInt(number);
+        if (this.value < Word.minSigned) {
+            this.value += 1n << BigInt(Word.lengthInBits);
+        }
+        if (this.value > Word.maxUnsigned) {
+            this.value -= 1n << BigInt(Word.lengthInBits);
+        }
+        if (this.value > Word.maxSigned) {
+            this.value -= Word.maxUnsigned + 1n;
+        }
     }
 
     public static fromUnsignedBinary(s: string): Word {
