@@ -36,3 +36,72 @@ describe('Decimal to binary conversion', () => {
         }
     });
 });
+
+describe('Arithmetic operations', () => {
+    it.each([
+        [0, 0, 0],
+        [1, 0, 1],
+        [1, 1, 2],
+        [-1, 1, 0],
+        [0xffffffff, 1, 0],
+        [0xf0000000, 0xf0000000, 0xe0000000],
+        [-0x80000000, -11, 0x7ffffff5],
+    ])('adds %p and %p expecting %p', (a: number, b: number, c: number) => {
+        expect(new Word(a).add(new Word(b))).toStrictEqual(new Word(c));
+    });
+
+    it.each([
+        [0, 0, 0],
+        [1, 0, 1],
+        [1, 1, 0],
+        [1, -1, 2],
+        [-1, 1, -2],
+        [0xffffffff, -1, 0],
+        [0xf0000000, -0xf0000000, 0xe0000000],
+        [-0x80000000, 11, 0x7ffffff5],
+    ])('subtracts from %p value %p expecting %p', (a: number, b: number, c: number) => {
+        expect(new Word(a).subtract(new Word(b))).toStrictEqual(new Word(c));
+    });
+
+    it.each([
+        [0, 0, 0, 0],
+        [1, 0, 0, 0],
+        [1, 1, 0, 1],
+        [1, -1, 0xffffffff, 0xffffffff],
+        [-1, 1, 0xffffffff, 0xffffffff],
+        [-15, 10, 0xffffffff, 0xffffffff - 150 + 1],
+        [2, 2, 0, 4],
+        [0x10000000, 0x10000000, 0x01000000, 0],
+        [21979826, 2380948, 0x2f98, 0xaf4f76e8],
+    ])('multiplies %p by %p expecting %p;%p', (a: number, b: number, higherResult: number, lowerResult: number) => {
+        let word1 = new Word(a);
+        let word2 = new Word(b);
+
+        expect(word1.mul(word2)).toStrictEqual(new Word(lowerResult));
+        expect(word1.mulh(word2)).toStrictEqual(new Word(higherResult));
+    });
+
+    it.each([
+        [0, 1, 0],
+        [1, 1, 1],
+        [1, -1, -1],
+        [-1, 1, -1],
+        [-15, 10, -1],
+        [2, 2, 1],
+        [0x10000000, 0x08000000, 2],
+        [0x2379acf4, 0x0b139acf, 3],
+    ])('divides %p by %p expecting %p', (a: number, b: number, result: number) => {
+        let word1 = new Word(a);
+        let word2 = new Word(b);
+
+        expect(word1.div(word2)).toStrictEqual(new Word(result));
+    });
+
+    it.each([
+        1, 5, 0, 100,
+    ])('divides %p by 0 expecting exception', (a: number) => {
+        let word1 = new Word(a);
+
+        expect(() => word1.div(Word.Zero)).toThrow();
+    });
+});
