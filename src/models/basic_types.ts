@@ -44,6 +44,26 @@ export class Word {
     public getValue(): number {
         return Number(this.value);
     }
+
+    public add(other: Word): Word {
+        return new Word(Number(this.value + other.value));
+    }
+
+    public subtract(other: Word): Word {
+        return new Word(Number(this.value - other.value));
+    }
+
+    public mul(other: Word): Word {
+        return new Word(Number(this.value * other.value));
+    }
+
+    public div(other: Word): Word {
+        return new Word(Number(this.value / other.value));
+    }
+
+    public remainder(other: Word): Word {
+        return new Word(Number(this.value % other.value));
+    }
 }
 
 
