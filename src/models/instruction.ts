@@ -160,6 +160,123 @@ export class Addition extends InstructionTypeR {
     }
 }
 
+export class Subtraction extends InstructionTypeR {
+    protected opcode: number = 0b0110011;
+    protected funct7: number = 0b0100000;
+
+    public execute(registerContext: RegisterContext) {
+        registerContext.setRegister(
+            this.rd,
+            registerContext.getRegister(this.rs1).subtract(registerContext.getRegister(this.rs2))
+        );
+    }
+}
+
+export class ShiftLogicalLeft extends InstructionTypeR {
+    protected opcode: number = 0b0110011;
+    protected funct3: number = 0b001;
+
+    public execute(registerContext: RegisterContext) {
+        registerContext.setRegister(
+            this.rd,
+            registerContext.getRegister(this.rs1).shiftLeft(registerContext.getRegister(this.rs2).getValue())
+        );
+    }
+}
+
+export class SetLessThan extends InstructionTypeR {
+    protected opcode: number = 0b0110011;
+    protected funct3: number = 0b010;
+
+    public execute(registerContext: RegisterContext) {
+        let a = registerContext.getRegister(this.rs1).getValue();
+        let b = registerContext.getRegister(this.rs2).getValue();
+
+        registerContext.setRegister(
+            this.rd,
+            a < b ? Word.One : Word.Zero
+        );
+    }
+}
+
+export class SetLessThanUnsigned extends InstructionTypeR {
+    protected opcode: number = 0b0110011;
+    protected funct3: number = 0b011;
+
+    public execute(registerContext: RegisterContext) {
+        let a = registerContext.getRegister(this.rs1).getUnsignedValue();
+        let b = registerContext.getRegister(this.rs2).getUnsignedValue();
+
+        registerContext.setRegister(
+            this.rd,
+            a < b ? Word.One : Word.Zero
+        );
+    }
+}
+
+export class Xor extends InstructionTypeR {
+    protected opcode: number = 0b0110011;
+    protected funct3: number = 0b100;
+
+    public execute(registerContext: RegisterContext) {
+        registerContext.setRegister(
+            this.rd,
+            new Word(registerContext.getRegister(this.rs1).getValue() ^ registerContext.getRegister(this.rs1).getValue())
+        );
+    }
+}
+
+export class ShiftRightLogical extends InstructionTypeR {
+    protected opcode: number = 0b0110011;
+    protected funct3: number = 0b101;
+
+    public execute(registerContext: RegisterContext) {
+        registerContext.setRegister(
+            this.rd,
+            registerContext.getRegister(this.rs1)
+                .shiftRight(registerContext.getRegister(this.rs2).getValue())
+        );
+    }
+}
+export class ShiftRightArithmetical extends InstructionTypeR {
+    protected opcode: number = 0b0110011;
+    protected funct3: number = 0b101;
+    protected funct7: number = 0b0100000;
+
+    public execute(registerContext: RegisterContext) {
+        registerContext.setRegister(
+            this.rd,
+            registerContext.getRegister(this.rs1)
+                .shiftRightArithmetical(registerContext.getRegister(this.rs2).getValue())
+        );
+    }
+}
+
+export class Or extends InstructionTypeR {
+    protected opcode: number = 0b0110011;
+    protected funct3: number = 0b110;
+
+    public execute(registerContext: RegisterContext) {
+        registerContext.setRegister(
+            this.rd,
+            new Word(registerContext.getRegister(this.rs1).getValue() | registerContext.getRegister(this.rs1).getValue())
+        );
+    }
+}
+
+export class And extends InstructionTypeR {
+    protected opcode: number = 0b0110011;
+    protected funct3: number = 0b111;
+
+    public execute(registerContext: RegisterContext) {
+        registerContext.setRegister(
+            this.rd,
+            new Word(registerContext.getRegister(this.rs1).getValue() & registerContext.getRegister(this.rs1).getValue())
+        );
+    }
+}
+
+
 export class AdditionWithImmediate extends InstructionTypeI {
     protected opcode: number = 0b0110011;
 
