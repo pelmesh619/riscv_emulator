@@ -75,7 +75,13 @@ export class Word {
     }
 
     public mul(other: Word): Word {
-        return new Word(Number(this.value * other.value));
+        let result = this.value * other.value;
+
+        return new Word(Number(result & Word.maxUnsigned));
+    }
+
+    public mulh(other: Word): Word {
+        return new Word(Number((this.value * other.value) >> BigInt(Word.lengthInBits)));
     }
 
     public div(other: Word): Word {
