@@ -1,5 +1,7 @@
 const abs = (n: bigint) => (n < 0n) ? -n : n;
 
+const sign = (n: bigint) => (n < 0n) ? -1n : (n == 0n) ? 0n : 1n;
+
 export class Word {
     /* 
         Word represents 4-byte (32 bits) integer in memory
@@ -90,6 +92,36 @@ export class Word {
 
     public remainder(other: Word): Word {
         return new Word(Number(this.value % other.value));
+    }
+
+    public shiftLeft(radix: number | bigint | Number | BigInt) {
+        let r: BigInt;
+        if (typeof radix == 'number' || radix instanceof Number) {
+            r = BigInt(Number(radix));
+        } else {
+            r = radix;
+        }
+        return new Word(Number(this.value << (r as bigint)));
+    }
+
+    public shiftRight(radix: number | bigint | Number | BigInt) {
+        let r: number;
+        if (typeof radix == 'bigint' || radix instanceof BigInt) {
+            r = Number(radix);
+        } else {
+            r = radix as number;
+        }
+        return new Word(this.getUnsignedValue() >> r);
+    }
+
+    public shiftRightArithmetical(radix: number | bigint | Number | BigInt) {
+        let r: number;
+        if (typeof radix == 'bigint' || radix instanceof BigInt) {
+            r = Number(radix);
+        } else {
+            r = radix as number;
+        }
+        return new Word((this.getUnsignedValue() >> r) * Number(sign(this.value)));
     }
 }
 
