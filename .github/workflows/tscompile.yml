@@ -57,7 +57,7 @@ jobs:
         run: npm install --save-dev jest ts-jest @types/jest
 
       - name: Test TypeScript code
-        run: npm test
+        run: npm run test
 
 
   deploy:
