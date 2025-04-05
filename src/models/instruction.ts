@@ -125,5 +125,41 @@ abstract class InstructionTypeJ extends InstructionTypeU {
         throw new Error("Method call in abstract class");
     }
 }
+
+export class Addition extends InstructionTypeR {
+    protected opcode: number = 0b0110011;
+
+    constructor(rd: number, rs1: number, rs2: number) {
+        super();
+        this.rs1 = rs1;
+        this.rs2 = rs2;
+        this.rd = rd;
+    }
+
+    public execute(registerContext: RegisterContext) {
+        registerContext.setRegister(
+            this.rd,
+            registerContext.getRegister(this.rs1).add(registerContext.getRegister(this.rs2))
+        );
+    }
+}
+
+export class AdditionWithImmediate extends InstructionTypeI {
+    protected opcode: number = 0b0110011;
+
+    constructor(rd: number, rs1: number, imm: number) {
+        super();
+        this.rs1 = rs1;
+        this.imm = imm;
+        this.rd = rd;
+    }
+    public execute(registerContext: RegisterContext) {
+        registerContext.setRegister(
+            this.rd,
+            registerContext.getRegister(this.rs1).add(new Word(this.imm))
+        );
+    }
+}
+
 }
 
