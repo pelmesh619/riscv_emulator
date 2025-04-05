@@ -10,6 +10,8 @@ export class Word {
     public static get lengthInBits(): number { return 32; }
     public static get maxUnsigned(): bigint { return (1n << BigInt(Word.lengthInBits)) - 1n; }
 
+    public static Zero = new Word(0);
+
     private value: bigint = 0n;
 
     constructor(number: number) {
