@@ -59,6 +59,13 @@ export class Word {
         return Number(this.value);
     }
 
+    public getUnsignedValue(): number {
+        if (this.value >= 0) {
+            return Number(this.value);
+        }
+        return Number(Word.maxUnsigned + this.value + 1n);
+    }
+
     public add(other: Word): Word {
         return new Word(Number(this.value + other.value));
     }
