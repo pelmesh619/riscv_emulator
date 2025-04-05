@@ -1,4 +1,4 @@
-import { Word } from '../src/models/basic_types.ts';
+import { Word } from '../src/models/basic_types';
 
 describe('Binary to decimal conversion', () => {
     it.each([
