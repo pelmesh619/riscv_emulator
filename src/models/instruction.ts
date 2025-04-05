@@ -17,6 +17,12 @@ abstract class InstructionTypeR implements Instruction {
     protected rd: number = 0;
     protected opcode: number = 0;
 
+    constructor(rd: number, rs1: number, rs2: number) {
+        this.rs1 = rs1;
+        this.rd = rd;
+        this.rs2 = rs2;
+    }
+
     public buildInstruction(): bigint {
         return ((BigInt(this.funct7) & 0b1111111n) << 25n) |
             ((BigInt(this.rs2) & 0b11111n) << 20n) |
@@ -38,6 +44,12 @@ abstract class InstructionTypeI implements Instruction {
     protected rd: number = 0;
     protected opcode: number = 0;
 
+    constructor(rd: number, rs1: number, imm: number) {
+        this.rs1 = rs1;
+        this.rd = rd;
+        this.imm = imm;
+    }
+
     public buildInstruction(): bigint {
         return ((BigInt(this.imm) & 0b111111111111n) << 20n) |
             ((BigInt(this.rs1) & 0b11111n) << 15n) |
@@ -51,12 +63,18 @@ abstract class InstructionTypeI implements Instruction {
     }
 }
 
-abstract class InstructionTypeS implements Instruction {
+class InstructionTypeS implements Instruction {
     protected imm: number = 0;
     protected funct3: number = 0;
     protected rs1: number = 0;
     protected rs2: number = 0;
     protected opcode: number = 0;
+
+    constructor(rs1: number, rs2: number, imm: number) {
+        this.rs1 = rs1;
+        this.rs2 = rs2;
+        this.imm = imm;
+    }
 
     public buildInstruction(): bigint {
         return ((BigInt(this.imm) & 0b111111100000n) << 25n) |
@@ -72,7 +90,7 @@ abstract class InstructionTypeS implements Instruction {
     }
 }
 
-abstract class InstructionTypeB extends InstructionTypeS {
+class InstructionTypeB extends InstructionTypeS {
     public buildInstruction(): bigint {
         let a = (((this.imm >> 12) & 0b1) << 6) | ((this.imm >> 5) & 0b111111);
         let b = (this.imm & 0b11110) | ((this.imm >> 11) & 0b1);
@@ -94,6 +112,11 @@ abstract class InstructionTypeU implements Instruction {
     protected imm: number = 0;
     protected rd: number = 0;
     protected opcode: number = 0;
+
+    constructor(rd: number, imm: number) {
+        this.rd = rd;
+        this.imm = imm;
+    }
 
     public buildInstruction(): bigint {
         return ((BigInt(this.imm) & 0b11111111111111111111000000000000n) << 12n) |
@@ -129,13 +152,6 @@ abstract class InstructionTypeJ extends InstructionTypeU {
 export class Addition extends InstructionTypeR {
     protected opcode: number = 0b0110011;
 
-    constructor(rd: number, rs1: number, rs2: number) {
-        super();
-        this.rs1 = rs1;
-        this.rs2 = rs2;
-        this.rd = rd;
-    }
-
     public execute(registerContext: RegisterContext) {
         registerContext.setRegister(
             this.rd,
@@ -147,12 +163,6 @@ export class Addition extends InstructionTypeR {
 export class AdditionWithImmediate extends InstructionTypeI {
     protected opcode: number = 0b0110011;
 
-    constructor(rd: number, rs1: number, imm: number) {
-        super();
-        this.rs1 = rs1;
-        this.imm = imm;
-        this.rd = rd;
-    }
     public execute(registerContext: RegisterContext) {
         registerContext.setRegister(
             this.rd,
