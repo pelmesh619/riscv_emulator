@@ -51,7 +51,7 @@ jobs:
         run: npm install --save-dev typescript
 
       - name: Link package
-        run: RUN npm link typescript
+        run: npm link typescript
 
       - name: Install Jest
         run: npm install --save-dev jest ts-jest @types/jest
