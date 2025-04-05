@@ -32,7 +32,7 @@ jobs:
         run: tsc
 
       - name: List compiled files
-        run: ls -la ./built
+        run: ls -la ./dist
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
