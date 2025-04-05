@@ -106,11 +106,7 @@ abstract class InstructionTypeU implements Instruction {
     }
 }
 
-abstract class InstructionTypeJ implements Instruction {
-    protected imm: number = 0;
-    protected rd: number = 0;
-    protected opcode: number = 0;
-
+abstract class InstructionTypeJ extends InstructionTypeU {
     public buildInstruction(): bigint {
         let a = (this.imm >> 20) & 0b1;
         let b = (this.imm >> 1) & 0b1111111111;
