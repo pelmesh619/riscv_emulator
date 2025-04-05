@@ -7,10 +7,9 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "lib": ["dom", "es2020"],
-        "allowImportingTsExtensions": true,
-        "noEmit": true
     },
     "include": [
+        "src/*/*",
         "src/**/*"
     ],
     "exclude": [
