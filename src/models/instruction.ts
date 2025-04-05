@@ -1,7 +1,12 @@
+import { RegisterContext } from './simulator.js'
+import { Word } from './basic_types.js'
+
 export namespace instructions32Bits {
 
-interface Instruction {
+export interface Instruction {
     buildInstruction(): bigint;
+
+    execute(registerContext: RegisterContext): void;
 }
 
 abstract class InstructionTypeR implements Instruction {
@@ -20,6 +25,10 @@ abstract class InstructionTypeR implements Instruction {
             ((BigInt(this.rd) & 0b11111n) << 7n) |
             (BigInt(this.opcode) & 0b1111111n);
     }
+    
+    execute(registerContext: RegisterContext): void {
+        throw new Error("Method call in abstract class");
+    }
 }
 
 abstract class InstructionTypeI implements Instruction {
@@ -35,6 +44,10 @@ abstract class InstructionTypeI implements Instruction {
             ((BigInt(this.funct3) & 0b111n) << 12n) |
             ((BigInt(this.rd) & 0b11111n) << 7n) |
             (BigInt(this.opcode) & 0b1111111n);
+    }
+    
+    execute(registerContext: RegisterContext): void {
+        throw new Error("Method call in abstract class");
     }
 }
 
@@ -53,6 +66,10 @@ abstract class InstructionTypeS implements Instruction {
             ((BigInt(this.imm) & 0b11111n) << 7n) |
             (BigInt(this.opcode) & 0b1111111n);
     }
+    
+    execute(registerContext: RegisterContext): void {
+        throw new Error("Method call in abstract class");
+    }
 }
 
 abstract class InstructionTypeB extends InstructionTypeS {
@@ -67,6 +84,10 @@ abstract class InstructionTypeB extends InstructionTypeS {
             (BigInt(b) << 7n) |
             (BigInt(this.opcode) & 0b1111111n);
     }
+    
+    execute(registerContext: RegisterContext): void {
+        throw new Error("Method call in abstract class");
+    }
 }
 
 abstract class InstructionTypeU implements Instruction {
@@ -78,6 +99,10 @@ abstract class InstructionTypeU implements Instruction {
         return ((BigInt(this.imm) & 0b11111111111111111111000000000000n) << 12n) |
             ((BigInt(this.rd) & 0b11111n) << 7n) |
             (BigInt(this.opcode) & 0b1111111n);
+    }
+    
+    execute(registerContext: RegisterContext): void {
+        throw new Error("Method call in abstract class");
     }
 }
 
@@ -98,6 +123,10 @@ abstract class InstructionTypeJ implements Instruction {
             ((BigInt(d)) << 12n) |
             ((BigInt(this.rd) & 0b11111n) << 7n) |
             (BigInt(this.opcode) & 0b1111111n);
+    }
+    
+    execute(registerContext: RegisterContext): void {
+        throw new Error("Method call in abstract class");
     }
 }
 }
