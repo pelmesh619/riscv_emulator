@@ -12,7 +12,7 @@ describe('Binary to decimal conversion', () => {
         ['10000000000000000000000000000000', -0x80000000, 0x80000000],
         ['01111111111111111111111111111111', 0x7fffffff, 0x7fffffff],
     ])('converts %p expecting %p and %p', (binary: string, signedNumber: number, unsignedNumber: number) => {
-        expect(Word.fromUnsignedBinary(binary).getValue()).toBe(unsignedNumber);
+        expect(Word.fromUnsignedBinary(binary).getUnsignedValue()).toBe(unsignedNumber);
         expect(Word.fromSignedBinary(binary).getValue()).toBe(signedNumber);
     });
 });
