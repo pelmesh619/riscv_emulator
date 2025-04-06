@@ -190,7 +190,7 @@ export class Subtraction extends InstructionTypeR {
     get keyword(): string { return 'sub'; }
 }
 
-export class ShiftLogicalLeft extends InstructionTypeR {
+export class ShiftLeftLogical extends InstructionTypeR {
     protected opcode: number = 0b0110011;
     protected funct3: number = 0b001;
 
@@ -377,7 +377,7 @@ export class XorWithImmediate extends InstructionTypeI {
     get keyword(): string { return 'xori'; }
 }
 
-export class ShiftLogicalLeftWithImmediate extends InstructionTypeI {
+export class ShiftLeftLogicalWithImmediate extends InstructionTypeI {
     protected opcode: number = 0b0010011;
     protected funct3: number = 0b001;
 
