@@ -316,7 +316,7 @@ export class And extends InstructionTypeR {
 
 
 export class AdditionWithImmediate extends InstructionTypeI {
-    protected opcode: number = 0b0110011;
+    protected opcode: number = 0b0010011;
 
     public execute(registerContext: RegisterContext) {
         registerContext.setRegister(
@@ -329,7 +329,7 @@ export class AdditionWithImmediate extends InstructionTypeI {
 }
 
 export class SetLessThanImmediate extends InstructionTypeI {
-    protected opcode: number = 0b0110011;
+    protected opcode: number = 0b0010011;
     protected funct3: number = 0b010;
 
     public execute(registerContext: RegisterContext) {
@@ -346,7 +346,7 @@ export class SetLessThanImmediate extends InstructionTypeI {
 }
 
 export class SetLessThanUnsignedImmediate extends InstructionTypeI {
-    protected opcode: number = 0b0110011;
+    protected opcode: number = 0b0010011;
     protected funct3: number = 0b011;
 
     public execute(registerContext: RegisterContext) {
@@ -363,7 +363,7 @@ export class SetLessThanUnsignedImmediate extends InstructionTypeI {
 }
 
 export class XorWithImmediate extends InstructionTypeI {
-    protected opcode: number = 0b0110011;
+    protected opcode: number = 0b0010011;
     protected funct3: number = 0b100;
 
     public execute(registerContext: RegisterContext) {
@@ -378,7 +378,7 @@ export class XorWithImmediate extends InstructionTypeI {
 }
 
 export class ShiftLogicalLeftWithImmediate extends InstructionTypeI {
-    protected opcode: number = 0b0110011;
+    protected opcode: number = 0b0010011;
     protected funct3: number = 0b001;
 
     public execute(registerContext: RegisterContext) {
@@ -393,7 +393,7 @@ export class ShiftLogicalLeftWithImmediate extends InstructionTypeI {
 }
 
 export class ShiftRightLogicalWithImmediate extends InstructionTypeI {
-    protected opcode: number = 0b0110011;
+    protected opcode: number = 0b0010011;
     protected funct3: number = 0b101;
 
     public execute(registerContext: RegisterContext) {
@@ -408,7 +408,7 @@ export class ShiftRightLogicalWithImmediate extends InstructionTypeI {
 }
 
 export class ShiftRightArithmeticalWithImmediate extends InstructionTypeI {
-    protected opcode: number = 0b0110011;
+    protected opcode: number = 0b0010011;
     protected funct3: number = 0b101;
     protected funct7: number = 0b0100000;
 
@@ -424,7 +424,7 @@ export class ShiftRightArithmeticalWithImmediate extends InstructionTypeI {
 }
 
 export class OrWithImmediate extends InstructionTypeI {
-    protected opcode: number = 0b0110011;
+    protected opcode: number = 0b0010011;
     protected funct3: number = 0b110;
 
     public execute(registerContext: RegisterContext) {
@@ -439,7 +439,7 @@ export class OrWithImmediate extends InstructionTypeI {
 }
 
 export class AndWithImmediate extends InstructionTypeI {
-    protected opcode: number = 0b0110011;
+    protected opcode: number = 0b0010011;
     protected funct3: number = 0b111;
 
     public execute(registerContext: RegisterContext) {
