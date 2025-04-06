@@ -46,6 +46,14 @@ export class Word {
         return new Word(parseInt(s.slice(1, s.length), 2) + (1 << (Word.lengthInBits - 1)))
     } 
 
+    public static fromNumberAndSignExtend(n: number, length: number): Word {
+        if (n >> (length - 1) == 1) {
+            n |= Number(Word.maxUnsigned >> BigInt(length)) << length;
+        }
+
+        return new Word(n);
+    }
+
     public asUnsignedBinary(): string {
         return this.value.toString(2).padStart(Word.lengthInBits, '0');
     }
