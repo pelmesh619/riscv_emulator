@@ -4,6 +4,8 @@ import { Word } from './basic_types.js'
 export namespace instructions32Bits {
 
 export interface Instruction {
+    get keyword(): string;
+
     buildInstruction(): bigint;
 
     execute(registerContext: RegisterContext): void;
@@ -22,6 +24,8 @@ abstract class InstructionTypeR implements Instruction {
         this.rd = rd;
         this.rs2 = rs2;
     }
+    
+    get keyword(): string { throw new Error('Method not implemented.'); }
 
     public buildInstruction(): bigint {
         return ((BigInt(this.funct7) & 0b1111111n) << 25n) |
@@ -49,6 +53,8 @@ abstract class InstructionTypeI implements Instruction {
         this.rd = rd;
         this.imm = imm;
     }
+    
+    get keyword(): string { throw new Error('Method not implemented.'); }
 
     public buildInstruction(): bigint {
         return ((BigInt(this.imm) & 0b111111111111n) << 20n) |
@@ -75,6 +81,8 @@ class InstructionTypeS implements Instruction {
         this.rs2 = rs2;
         this.imm = imm;
     }
+    
+    get keyword(): string { throw new Error('Method not implemented.'); }
 
     public buildInstruction(): bigint {
         return ((BigInt(this.imm) & 0b111111100000n) << 25n) |
@@ -103,6 +111,8 @@ class InstructionTypeB extends InstructionTypeS {
             (BigInt(this.opcode) & 0b1111111n);
     }
     
+    get keyword(): string { throw new Error('Method not implemented.'); }
+    
     execute(registerContext: RegisterContext): void {
         throw new Error("Method call in abstract class");
     }
@@ -117,6 +127,8 @@ abstract class InstructionTypeU implements Instruction {
         this.rd = rd;
         this.imm = imm;
     }
+    
+    get keyword(): string { throw new Error('Method not implemented.'); }
 
     public buildInstruction(): bigint {
         return ((BigInt(this.imm) & 0b11111111111111111111000000000000n) << 12n) |
@@ -144,6 +156,8 @@ abstract class InstructionTypeJ extends InstructionTypeU {
             (BigInt(this.opcode) & 0b1111111n);
     }
     
+    get keyword(): string { throw new Error('Method not implemented.'); }
+    
     execute(registerContext: RegisterContext): void {
         throw new Error("Method call in abstract class");
     }
@@ -158,6 +172,8 @@ export class Addition extends InstructionTypeR {
             registerContext.getRegister(this.rs1).add(registerContext.getRegister(this.rs2))
         );
     }
+    
+    get keyword(): string { return 'add'; }
 }
 
 export class Subtraction extends InstructionTypeR {
@@ -170,6 +186,8 @@ export class Subtraction extends InstructionTypeR {
             registerContext.getRegister(this.rs1).subtract(registerContext.getRegister(this.rs2))
         );
     }
+    
+    get keyword(): string { return 'sub'; }
 }
 
 export class ShiftLogicalLeft extends InstructionTypeR {
@@ -183,6 +201,8 @@ export class ShiftLogicalLeft extends InstructionTypeR {
                 .shiftLeft(registerContext.getRegister(this.rs2).getValue() & 0b11111)
         );
     }
+    
+    get keyword(): string { return 'sll'; }
 }
 
 export class SetLessThan extends InstructionTypeR {
@@ -198,6 +218,8 @@ export class SetLessThan extends InstructionTypeR {
             a < b ? Word.One : Word.Zero
         );
     }
+    
+    get keyword(): string { return 'slt'; }
 }
 
 export class SetLessThanUnsigned extends InstructionTypeR {
@@ -213,6 +235,8 @@ export class SetLessThanUnsigned extends InstructionTypeR {
             a < b ? Word.One : Word.Zero
         );
     }
+    
+    get keyword(): string { return 'sltu'; }
 }
 
 export class Xor extends InstructionTypeR {
@@ -226,6 +250,8 @@ export class Xor extends InstructionTypeR {
                 .bitwiseXor(registerContext.getRegister(this.rs2))
         );
     }
+    
+    get keyword(): string { return 'xor'; }
 }
 
 export class ShiftRightLogical extends InstructionTypeR {
@@ -239,6 +265,8 @@ export class ShiftRightLogical extends InstructionTypeR {
                 .shiftRight(registerContext.getRegister(this.rs2).getValue() & 0b11111)
         );
     }
+    
+    get keyword(): string { return 'srl'; }
 }
 export class ShiftRightArithmetical extends InstructionTypeR {
     protected opcode: number = 0b0110011;
@@ -252,6 +280,8 @@ export class ShiftRightArithmetical extends InstructionTypeR {
                 .shiftRightArithmetical(registerContext.getRegister(this.rs2).getValue() & 0b11111)
         );
     }
+    
+    get keyword(): string { return 'sra'; }
 }
 
 export class Or extends InstructionTypeR {
@@ -265,6 +295,8 @@ export class Or extends InstructionTypeR {
                 .bitwiseOr(registerContext.getRegister(this.rs2))
         );
     }
+    
+    get keyword(): string { return 'or'; }
 }
 
 export class And extends InstructionTypeR {
@@ -278,6 +310,8 @@ export class And extends InstructionTypeR {
                 .bitwiseAnd(registerContext.getRegister(this.rs2))
         );
     }
+    
+    get keyword(): string { return 'and'; }
 }
 
 
@@ -290,6 +324,8 @@ export class AdditionWithImmediate extends InstructionTypeI {
             registerContext.getRegister(this.rs1).add(Word.fromNumberAndSignExtend(this.imm, 12))
         );
     }
+    
+    get keyword(): string { return 'addi'; }
 }
 
 export class SetLessThanImmediate extends InstructionTypeI {
@@ -305,6 +341,8 @@ export class SetLessThanImmediate extends InstructionTypeI {
             a < b ? Word.One : Word.Zero
         );
     }
+    
+    get keyword(): string { return 'slti'; }
 }
 
 export class SetLessThanUnsignedImmediate extends InstructionTypeI {
@@ -320,6 +358,8 @@ export class SetLessThanUnsignedImmediate extends InstructionTypeI {
             a < b ? Word.One : Word.Zero
         );
     }
+    
+    get keyword(): string { return 'sltiu'; }
 }
 
 export class XorWithImmediate extends InstructionTypeI {
@@ -333,6 +373,8 @@ export class XorWithImmediate extends InstructionTypeI {
                 .bitwiseXor(Word.fromNumberAndSignExtend(this.imm, 12))
         );
     }
+    
+    get keyword(): string { return 'xori'; }
 }
 
 export class ShiftLogicalLeftWithImmediate extends InstructionTypeI {
@@ -346,6 +388,8 @@ export class ShiftLogicalLeftWithImmediate extends InstructionTypeI {
                 .shiftLeft(this.imm & 0b11111)
         );
     }
+    
+    get keyword(): string { return 'slli'; }
 }
 
 export class ShiftRightLogicalWithImmediate extends InstructionTypeI {
@@ -359,6 +403,8 @@ export class ShiftRightLogicalWithImmediate extends InstructionTypeI {
                 .shiftRight(this.imm & 0b11111)
         );
     }
+    
+    get keyword(): string { return 'srli'; }
 }
 
 export class ShiftRightArithmeticalWithImmediate extends InstructionTypeI {
@@ -372,6 +418,9 @@ export class ShiftRightArithmeticalWithImmediate extends InstructionTypeI {
             registerContext.getRegister(this.rs1)
                 .shiftRightArithmetical(this.imm & 0b11111)
         );
+    }
+    
+    get keyword(): string { return 'srai'; }
 }
 
 export class OrWithImmediate extends InstructionTypeI {
@@ -385,6 +434,8 @@ export class OrWithImmediate extends InstructionTypeI {
                 .bitwiseOr(Word.fromNumberAndSignExtend(this.imm, 12))
         );
     }
+    
+    get keyword(): string { return 'ori'; }
 }
 
 export class AndWithImmediate extends InstructionTypeI {
@@ -397,6 +448,9 @@ export class AndWithImmediate extends InstructionTypeI {
             registerContext.getRegister(this.rs1)
                 .bitwiseAnd(Word.fromNumberAndSignExtend(this.imm, 12))
         );
+    }
+    
+    get keyword(): string { return 'andi'; }
 }
 
 
@@ -408,6 +462,9 @@ export class LoadUpperImmediate extends InstructionTypeU {
             this.rd,
             new Word((this.imm >> 12) << 12)
         );
+    }
+    
+    get keyword(): string { return 'lui'; }
 }
 
 
@@ -425,6 +482,8 @@ export class AddUpperImmediateToProgramCounter extends InstructionTypeU {
         );
 
     }
+    
+    get keyword(): string { return 'auipc'; }
 }
 
 }
