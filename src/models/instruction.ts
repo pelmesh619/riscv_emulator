@@ -287,7 +287,7 @@ export class AdditionWithImmediate extends InstructionTypeI {
     public execute(registerContext: RegisterContext) {
         registerContext.setRegister(
             this.rd,
-            registerContext.getRegister(this.rs1).add(new Word(this.imm))
+            registerContext.getRegister(this.rs1).add(Word.fromNumberAndSignExtend(this.imm, 12))
         );
     }
 }
