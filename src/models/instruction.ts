@@ -222,7 +222,8 @@ export class Xor extends InstructionTypeR {
     public execute(registerContext: RegisterContext) {
         registerContext.setRegister(
             this.rd,
-            new Word(registerContext.getRegister(this.rs1).getValue() ^ registerContext.getRegister(this.rs1).getValue())
+            registerContext.getRegister(this.rs1)
+                .bitwiseXor(registerContext.getRegister(this.rs2))
         );
     }
 }
@@ -260,7 +261,8 @@ export class Or extends InstructionTypeR {
     public execute(registerContext: RegisterContext) {
         registerContext.setRegister(
             this.rd,
-            new Word(registerContext.getRegister(this.rs1).getValue() | registerContext.getRegister(this.rs1).getValue())
+            registerContext.getRegister(this.rs1)
+                .bitwiseOr(registerContext.getRegister(this.rs2))
         );
     }
 }
@@ -272,7 +274,8 @@ export class And extends InstructionTypeR {
     public execute(registerContext: RegisterContext) {
         registerContext.setRegister(
             this.rd,
-            new Word(registerContext.getRegister(this.rs1).getValue() & registerContext.getRegister(this.rs1).getValue())
+            registerContext.getRegister(this.rs1)
+                .bitwiseAnd(registerContext.getRegister(this.rs2))
         );
     }
 }
