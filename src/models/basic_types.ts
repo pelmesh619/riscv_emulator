@@ -123,6 +123,22 @@ export class Word {
         }
         return new Word((this.getUnsignedValue() >> r) * Number(sign(this.value)));
     }
+
+    public bitwiseAnd(other: Word) {
+        return new Word(this.getUnsignedValue() & other.getUnsignedValue());
+    }
+
+    public bitwiseOr(other: Word) {
+        return new Word(this.getUnsignedValue() | other.getUnsignedValue());
+    }
+
+    public bitwiseXor(other: Word) {
+        return new Word(this.getUnsignedValue() ^ other.getUnsignedValue());
+    }
+
+    public bitwiseNot() {
+        return new Word(~this.getUnsignedValue());
+    }
 }
 
 
