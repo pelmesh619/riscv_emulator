@@ -105,3 +105,46 @@ describe('Arithmetic operations', () => {
         expect(() => word1.div(Word.Zero)).toThrow();
     });
 });
+
+
+describe('Bitwise operations', () => {
+    it.each([
+        [0, 0, 0],
+        [1, 0, 1],
+        [1, 1, 0],
+        [0b1101010, 0b10101, 0b1111111],
+        [-1, 1, 0xfffffffe],
+        [0xffffffff, 1, 0xfffffffe],
+        [0xf0000000, 0xf0000000, 0x00000000],
+        [0x80000000, 0x0000000b, 0x8000000b],
+    ])('xors %p and %p expecting %p', (a: number, b: number, c: number) => {
+        expect(new Word(a).bitwiseXor(new Word(b))).toStrictEqual(new Word(c));
+    });
+    
+    it.each([
+        [0, 0, 0],
+        [1, 0, 0],
+        [1, 1, 1],
+        [0b1101010, 0b10101, 0b0000000],
+        [-1, 1, 1],
+        [0xffffffff, 1, 1],
+        [0xffffffff, 0x00f00000, 0x00f00000],
+        [0xf0000000, 0xf0000000, 0xf0000000],
+        [0x80000000, 0x0000000b, 0x00000000],
+    ])('ands %p and %p expecting %p', (a: number, b: number, c: number) => {
+        expect(new Word(a).bitwiseAnd(new Word(b))).toStrictEqual(new Word(c));
+    });
+    
+    it.each([
+        [0, 0, 0],
+        [1, 0, 1],
+        [1, 1, 1],
+        [0b1101010, 0b10101, 0b1111111],
+        [-1, 1, 0xffffffff],
+        [0xffffffff, 1, 0xffffffff],
+        [0xf0000000, 0xf0000000, 0xf0000000],
+        [0x80000000, 0x0000000b, 0x8000000b],
+    ])('ors %p and %p expecting %p', (a: number, b: number, c: number) => {
+        expect(new Word(a).bitwiseOr(new Word(b))).toStrictEqual(new Word(c));
+    });
+});
