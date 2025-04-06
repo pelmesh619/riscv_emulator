@@ -179,7 +179,8 @@ export class ShiftLogicalLeft extends InstructionTypeR {
     public execute(registerContext: RegisterContext) {
         registerContext.setRegister(
             this.rd,
-            registerContext.getRegister(this.rs1).shiftLeft(registerContext.getRegister(this.rs2).getValue())
+            registerContext.getRegister(this.rs1)
+                .shiftLeft(registerContext.getRegister(this.rs2).getValue() & 0b11111)
         );
     }
 }
@@ -234,7 +235,7 @@ export class ShiftRightLogical extends InstructionTypeR {
         registerContext.setRegister(
             this.rd,
             registerContext.getRegister(this.rs1)
-                .shiftRight(registerContext.getRegister(this.rs2).getValue())
+                .shiftRight(registerContext.getRegister(this.rs2).getValue() & 0b11111)
         );
     }
 }
@@ -247,7 +248,7 @@ export class ShiftRightArithmetical extends InstructionTypeR {
         registerContext.setRegister(
             this.rd,
             registerContext.getRegister(this.rs1)
-                .shiftRightArithmetical(registerContext.getRegister(this.rs2).getValue())
+                .shiftRightArithmetical(registerContext.getRegister(this.rs2).getValue() & 0b11111)
         );
     }
 }
