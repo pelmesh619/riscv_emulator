@@ -292,5 +292,140 @@ export class AdditionWithImmediate extends InstructionTypeI {
     }
 }
 
+export class SetLessThanImmediate extends InstructionTypeI {
+    protected opcode: number = 0b0110011;
+    protected funct3: number = 0b010;
+
+    public execute(registerContext: RegisterContext) {
+        let a = registerContext.getRegister(this.rs1).getValue();
+        let b = Word.fromNumberAndSignExtend(this.imm, 12).getValue();
+
+        registerContext.setRegister(
+            this.rd,
+            a < b ? Word.One : Word.Zero
+        );
+    }
+}
+
+export class SetLessThanUnsignedImmediate extends InstructionTypeI {
+    protected opcode: number = 0b0110011;
+    protected funct3: number = 0b011;
+
+    public execute(registerContext: RegisterContext) {
+        let a = registerContext.getRegister(this.rs1).getUnsignedValue();
+        let b = Word.fromNumberAndSignExtend(this.imm, 12).getUnsignedValue();
+
+        registerContext.setRegister(
+            this.rd,
+            a < b ? Word.One : Word.Zero
+        );
+    }
+}
+
+export class XorWithImmediate extends InstructionTypeI {
+    protected opcode: number = 0b0110011;
+    protected funct3: number = 0b100;
+
+    public execute(registerContext: RegisterContext) {
+        registerContext.setRegister(
+            this.rd,
+            registerContext.getRegister(this.rs1)
+                .bitwiseXor(Word.fromNumberAndSignExtend(this.imm, 12))
+        );
+    }
+}
+
+export class ShiftLogicalLeftWithImmediate extends InstructionTypeI {
+    protected opcode: number = 0b0110011;
+    protected funct3: number = 0b001;
+
+    public execute(registerContext: RegisterContext) {
+        registerContext.setRegister(
+            this.rd,
+            registerContext.getRegister(this.rs1)
+                .shiftLeft(this.imm & 0b11111)
+        );
+    }
+}
+
+export class ShiftRightLogicalWithImmediate extends InstructionTypeI {
+    protected opcode: number = 0b0110011;
+    protected funct3: number = 0b101;
+
+    public execute(registerContext: RegisterContext) {
+        registerContext.setRegister(
+            this.rd,
+            registerContext.getRegister(this.rs1)
+                .shiftRight(this.imm & 0b11111)
+        );
+    }
+}
+
+export class ShiftRightArithmeticalWithImmediate extends InstructionTypeI {
+    protected opcode: number = 0b0110011;
+    protected funct3: number = 0b101;
+    protected funct7: number = 0b0100000;
+
+    public execute(registerContext: RegisterContext) {
+        registerContext.setRegister(
+            this.rd,
+            registerContext.getRegister(this.rs1)
+                .shiftRightArithmetical(this.imm & 0b11111)
+        );
+}
+
+export class OrWithImmediate extends InstructionTypeI {
+    protected opcode: number = 0b0110011;
+    protected funct3: number = 0b110;
+
+    public execute(registerContext: RegisterContext) {
+        registerContext.setRegister(
+            this.rd,
+            registerContext.getRegister(this.rs1)
+                .bitwiseOr(Word.fromNumberAndSignExtend(this.imm, 12))
+        );
+    }
+}
+
+export class AndWithImmediate extends InstructionTypeI {
+    protected opcode: number = 0b0110011;
+    protected funct3: number = 0b111;
+
+    public execute(registerContext: RegisterContext) {
+        registerContext.setRegister(
+            this.rd,
+            registerContext.getRegister(this.rs1)
+                .bitwiseAnd(Word.fromNumberAndSignExtend(this.imm, 12))
+        );
+}
+
+
+export class LoadUpperImmediate extends InstructionTypeU {
+    protected opcode: number = 0b0110111;
+
+    public execute(registerContext: RegisterContext) {
+        registerContext.setRegister(
+            this.rd,
+            new Word((this.imm >> 12) << 12)
+        );
+}
+
+
+export class AddUpperImmediateToProgramCounter extends InstructionTypeU {
+    protected opcode: number = 0b0010111;
+
+    public execute(registerContext: RegisterContext) {
+        registerContext.setRegister(
+            registerContext.programCounterIndex,
+            new Word((this.imm >> 12) << 12).add(registerContext.getRegister(registerContext.programCounterIndex))
+        );
+        registerContext.setRegister(
+            this.rd,
+            registerContext.getRegister(registerContext.programCounterIndex)
+        );
+
+    }
+}
+
 }
 
